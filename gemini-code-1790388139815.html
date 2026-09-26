@@ -1,0 +1,1062 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>USMLE Step 1 Cardiovascular & Autonomic Physiology Examination</title>
+  <style>
+    :root {
+      --primary: #1e3a8a;
+      --primary-light: #3b82f6;
+      --bg: #f8fafc;
+      --card-bg: #ffffff;
+      --text-main: #0f172a;
+      --text-muted: #64748b;
+      --border: #e2e8f0;
+      --correct-bg: #ecfdf5;
+      --correct-border: #10b981;
+      --correct-text: #065f46;
+      --incorrect-bg: #fef2f2;
+      --incorrect-border: #ef4444;
+      --incorrect-text: #991b1b;
+      --radius: 8px;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      background-color: var(--bg);
+      color: var(--text-main);
+      line-height: 1.5;
+      padding-bottom: 60px;
+    }
+
+    header {
+      background-color: var(--primary);
+      color: white;
+      padding: 24px 20px;
+      text-align: center;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+
+    header h1 {
+      font-size: 1.5rem;
+      font-weight: 700;
+    }
+
+    header p {
+      font-size: 0.9rem;
+      opacity: 0.9;
+      margin-top: 4px;
+    }
+
+    .container {
+      max-width: 900px;
+      margin: 20px auto;
+      padding: 0 16px;
+    }
+
+    .scoreboard {
+      background: white;
+      padding: 16px;
+      border-radius: var(--radius);
+      border: 1px solid var(--border);
+      display: flex;
+      justify-content: space-around;
+      align-items: center;
+      margin-bottom: 24px;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+      position: sticky;
+      top: 85px;
+      z-index: 90;
+    }
+
+    .stat-item {
+      text-align: center;
+    }
+
+    .stat-val {
+      font-size: 1.25rem;
+      font-weight: 700;
+      color: var(--primary);
+    }
+
+    .stat-lbl {
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      letter-spacing: 0.05em;
+    }
+
+    .section-title {
+      font-size: 1.25rem;
+      font-weight: 700;
+      color: var(--primary);
+      margin: 32px 0 16px 0;
+      padding-bottom: 8px;
+      border-bottom: 2px solid var(--border);
+    }
+
+    .card {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 20px;
+      margin-bottom: 20px;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.02);
+    }
+
+    .q-number {
+      font-size: 0.85rem;
+      font-weight: 700;
+      color: var(--primary-light);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      margin-bottom: 6px;
+    }
+
+    .q-text {
+      font-size: 1rem;
+      font-weight: 600;
+      margin-bottom: 16px;
+      color: var(--text-main);
+    }
+
+    .options-grid {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .opt-btn {
+      background: #f1f5f9;
+      border: 1px solid var(--border);
+      padding: 12px 16px;
+      border-radius: var(--radius);
+      text-align: left;
+      font-size: 0.95rem;
+      cursor: pointer;
+      display: flex;
+      align-items: flex-start;
+      transition: all 0.2s ease;
+      color: var(--text-main);
+    }
+
+    .opt-btn:hover:not(:disabled) {
+      background: #e2e8f0;
+      border-color: #cbd5e1;
+    }
+
+    .opt-letter {
+      font-weight: 700;
+      min-width: 28px;
+      color: var(--primary);
+    }
+
+    .opt-text {
+      flex: 1;
+    }
+
+    .opt-btn.correct {
+      background-color: var(--correct-bg) !important;
+      border-color: var(--correct-border) !important;
+      color: var(--correct-text) !important;
+      font-weight: 600;
+    }
+
+    .opt-btn.incorrect {
+      background-color: var(--incorrect-bg) !important;
+      border-color: var(--incorrect-border) !important;
+      color: var(--incorrect-text) !important;
+    }
+
+    .explanation {
+      margin-top: 16px;
+      padding: 16px;
+      background: #f8fafc;
+      border-left: 4px solid var(--primary-light);
+      border-radius: 4px;
+      font-size: 0.9rem;
+      display: none;
+    }
+
+    .explanation strong {
+      display: block;
+      margin-bottom: 6px;
+      color: var(--primary);
+    }
+
+    .written-box {
+      width: 100%;
+      height: 100px;
+      padding: 10px;
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      font-family: inherit;
+      font-size: 0.95rem;
+      margin-bottom: 12px;
+      resize: vertical;
+    }
+
+    .btn-secondary {
+      background: var(--primary-light);
+      color: white;
+      border: none;
+      padding: 8px 16px;
+      border-radius: var(--radius);
+      cursor: pointer;
+      font-weight: 600;
+      font-size: 0.85rem;
+    }
+
+    .btn-secondary:hover {
+      background: var(--primary);
+    }
+
+    .matching-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 12px;
+    }
+
+    .matching-table th, .matching-table td {
+      border: 1px solid var(--border);
+      padding: 10px;
+      text-align: left;
+      font-size: 0.9rem;
+    }
+
+    .matching-table select {
+      padding: 6px;
+      border-radius: 4px;
+      border: 1px solid var(--border);
+      width: 100%;
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <h1>USMLE Step 1 Medical Physiology Examination</h1>
+    <p>Cardiovascular Dynamics, Autonomic Tone, Hemodynamics & Sensory Systems</p>
+  </header>
+
+  <div class="container">
+    <div class="scoreboard">
+      <div class="stat-item">
+        <div class="stat-val" id="score">0</div>
+        <div class="stat-lbl">Score</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-val" id="answered">0 / 97</div>
+        <div class="stat-lbl">MCQs Complete</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-val" id="accuracy">0%</div>
+        <div class="stat-lbl">Accuracy</div>
+      </div>
+    </div>
+
+    <!-- Section I: Matching -->
+    <h2 class="section-title">Section I: Receptor & Mediator Matching</h2>
+    <div class="card" id="q1-card">
+      <div class="q-number">Question 1: Matching Segment</div>
+      <div class="q-text">Match each physiological receptor or mediator with its primary functional mechanism:</div>
+      
+      <table class="matching-table">
+        <thead>
+          <tr>
+            <th style="width: 45%;">Entity</th>
+            <th style="width: 55%;">Your Match</th>
+          </tr>
+        </thead>
+        <tbody id="matching-rows"></tbody>
+      </table>
+      <div style="margin-top: 16px;">
+        <button class="btn-secondary" onclick="checkMatching()">Submit Matching Segment</button>
+      </div>
+      <div class="explanation" id="exp-q1"></div>
+    </div>
+
+    <!-- Section II: Short Answer -->
+    <h2 class="section-title">Section II: Short Answer Clinical Integration</h2>
+    <div class="card">
+      <div class="q-number">Question 2: Short Answer</div>
+      <div class="q-text">
+        A 24-year-old medical student abruptly stands up after studying supine on a couch for three hours. Within two seconds, their mean arterial pressure at the carotid sinuses drops transiently by 18 mmHg.
+        <br><br>
+        1. State the immediate change in afferent firing along CN IX (Hering's nerve).<br>
+        2. Describe the central relay pathway through the medulla (NTS and RVLM).<br>
+        3. Explain how the autonomic efferent response restores Mean Arterial Pressure (MAP = CO × TPR).
+      </div>
+      <textarea class="written-box" placeholder="Type your response here..."></textarea>
+      <button class="btn-secondary" onclick="toggleDisplay('exp-q2')">View Scoring Rubric & Model Answer</button>
+      <div class="explanation" id="exp-q2">
+        <strong>Scoring Rubric & Benchmark Answer:</strong>
+        <p><strong>1. Afferent Firing:</strong> Carotid sinus transmural stretch decreases, causing an immediate reduction in the frequency of action potentials conducted along the glossopharyngeal nerve (CN IX) to the brainstem.</p>
+        <p><strong>2. Central Medullary Relay:</strong> Reduced afferent traffic diminishes excitatory input to the nucleus tractus solitarius (NTS). This disinhibits the rostral ventrolateral medulla (RVLM) via reduced GABAergic interneuron activation from the CVLM, and removes drive to the parasympathetic cardioinhibitory center (nucleus ambiguus and dorsal motor nucleus of CN X).</p>
+        <p><strong>3. Efferent Compensation & Restoration:</strong> Vagal outflow to the SA node drops (tachycardia via M2 disinhibition). Sympathetic adrenergic outflow surges: cardiac beta-1 activation enhances inotropy and chronotropy (increases Cardiac Output), arteriolar alpha-1 vasoconstriction increases Total Peripheral Resistance (TPR), and venular alpha-1 constriction reduces venous capacitance to restore central venous filling pressure (preload). Together, MAP = CO × TPR is restored to normal.</p>
+      </div>
+    </div>
+
+    <!-- Section III: Long Answer -->
+    <h2 class="section-title">Section III: Long Answer Pathophysiology Vignette</h2>
+    <div class="card">
+      <div class="q-number">Question 3: Long Answer / Clinical Case</div>
+      <div class="q-text">
+        A 32-year-old construction worker is brought to the trauma center after a pelvic crush injury with severe retroperitoneal hemorrhage. BP is 72/46 mmHg, heart rate is 138 bpm, and skin is pale, cold, and clammy.
+        <br><br>
+        1. Classify the type and clinical stage of shock.<br>
+        2. Detail the mechanical and compensatory shifts on the cardiac and vascular function (Guyton) curves.<br>
+        3. Outline the cellular microvascular crisis occurring in decompensated shock (focusing on Na+/K+ ATPase, metabolic acidosis, and precapillary sphincter tone).
+      </div>
+      <textarea class="written-box" style="height: 140px;" placeholder="Type your comprehensive analysis here..."></textarea>
+      <button class="btn-secondary" onclick="toggleDisplay('exp-q3')">View Scoring Rubric & Model Answer</button>
+      <div class="explanation" id="exp-q3">
+        <strong>Scoring Rubric & Benchmark Answer:</strong>
+        <p><strong>1. Classification:</strong> Hypovolemic (hemorrhagic) shock; Stage 2 (Decompensated / Progressive shock) characterized by persistent arterial hypotension (SBP &lt; 90 mmHg) and severe tissue hypoperfusion despite maximal sympathetic tachycardia.</p>
+        <p><strong>2. Guyton Hemodynamic Curve Shifts:</strong> 
+          <br>• <em>Vascular function curve:</em> Acute blood loss lowers stressed vascular volume, immediately shifting the venous return curve downward and parallel to the left (decreasing mean systemic filling pressure, Pmsf).
+          <br>• <em>Cardiac function curve:</em> High sympathetic adrenergic discharge (beta-1) increases ventricular contractility, rotating the cardiac function curve counterclockwise (increasing slope).
+          <br>• <em>Compensatory vascular shift:</em> Sympathetic alpha-1 venoconstriction partially restores mean systemic filling pressure, shifting the vascular curve back toward normal baseline.
+        </p>
+        <p><strong>3. Cellular & Microcirculatory Failure:</strong> Severe hypoperfusion deprives mitochondria of oxygen, halting oxidative phosphorylation and accelerating anaerobic glycolysis. Lactic and pyruvic acids accumulate, causing systemic metabolic acidosis. Cellular ATP depletion causes failure of Na+/K+ ATPase pumps, triggering intracellular Na+ and water retention (cytolysis) and extracellular hyperkalemia. Locally accumulated metabolites (adenosine, H+, K+) dilate precapillary sphincters, while postcapillary venules remain constricted. This elevation in capillary hydrostatic pressure (Pc) forces fluid into the interstitial space, precipitating terminal microvascular collapse.</p>
+      </div>
+    </div>
+
+    <!-- Section IV: MCQs -->
+    <h2 class="section-title">Section IV: Multiple Choice Examination (Questions 4–100)</h2>
+    <div id="mcq-container"></div>
+  </div>
+
+  <script>
+    const matchingData = [
+      { id: 1, name: "Pacinian Corpuscle", match: "B", desc: "Rapidly adapting (RA-D) encapsulated receptor sensing high-frequency deep vibration." },
+      { id: 2, name: "Merkel Disc", match: "D", desc: "Slowly adapting (SA-P) unencapsulated receptor sensing sustained light touch and edges." },
+      { id: 3, name: "Skeletal Muscle Spindle", match: "F", desc: "Intrafusal stretch sensor maintaining tone via dynamic alpha-gamma coactivation." },
+      { id: 4, name: "Golgi Tendon Organ", match: "A", desc: "Monitors active muscular tension; triggers autogenic Ib reflex relaxation." },
+      { id: 5, name: "Endothelin-1", match: "G", desc: "Potent 21-amino-acid peptide acting via Gq-coupled ET receptors to drive vasoconstriction." },
+      { id: 6, name: "Nitric Oxide", match: "E", desc: "Diffuses from endothelium into smooth muscle, activating cGMP and MLCP to cause relaxation." },
+      { id: 7, name: "Atrial Natriuretic Peptide (ANP)", match: "J", desc: "Secreted in response to atrial stretch; promotes natriuresis, diuresis, and suppresses renin." },
+      { id: 8, name: "Endothelial Prostacyclin (PGI2)", match: "I", desc: "Synthesized via COX; binds platelet IP receptors via Gs/cAMP to inhibit aggregation." },
+      { id: 9, name: "Substance P", match: "H", desc: "Neuropeptide co-released with glutamate from C fibers mediating slow, dull, burning pain." },
+      { id: 10, name: "Cardiac M2 Muscarinic Receptor", match: "C", desc: "Coupled to Gi/GIRK; decreases cAMP and hyperpolarizes pacemaker cells to slow heart rate." }
+    ];
+
+    const matchingOptions = [
+      { letter: "A", text: "Senses active muscular tension; triggers autogenic Ib reflex relaxation" },
+      { letter: "B", text: "Rapidly adapting (RA-D) encapsulated receptor sensing deep vibration" },
+      { letter: "C", text: "Coupled to Gi/GIRK; slows SA node pacemaker depolarization" },
+      { letter: "D", text: "Slowly adapting (SA-P) receptor sensing sustained touch and edges" },
+      { letter: "E", text: "Diffuses into smooth muscle, stimulating cGMP/MLCP to induce vasodilation" },
+      { letter: "F", text: "Intrafusal stretch sensor maintained by alpha-gamma coactivation" },
+      { letter: "G", text: "Endothelium-derived peptide acting via Gq to drive vasoconstriction" },
+      { letter: "H", text: "Primary afferent neuropeptide mediating slow, dull, burning pain" },
+      { letter: "I", text: "Endothelial prostanoid acting via Gs/cAMP to inhibit platelet aggregation" },
+      { letter: "J", text: "Atrial hormone promoting renal natriuresis, diuresis, and renin inhibition" }
+    ];
+
+    const mcqQuestions = [
+      {
+        q: "A 45-year-old male with essential hypertension has an arterial blood pressure reading of 130/85 mmHg. Which of the following represents his calculated Mean Arterial Pressure (MAP)?",
+        options: ["100.0 mmHg", "92.5 mmHg", "107.5 mmHg", "115.0 mmHg"],
+        answer: 0,
+        explanation: "MAP = DBP + 1/3(SBP - DBP) = 85 + 1/3(45) = 85 + 15 = 100.0 mmHg. Option B miscalculates pulse pressure fraction. Option C adds half the pulse pressure. Option D is a simple mathematical average."
+      },
+      {
+        q: "A 62-year-old male experiences lightheadedness upon standing. During the normal compensatory response to standing upright, which of the following hemodynamic shifts occurs first before reflex compensation?",
+        options: ["Increased cardiac output", "Decreased central blood volume", "Decreased systemic vascular resistance", "Increased stroke volume"],
+        answer: 1,
+        explanation: "Gravitational pooling of blood in lower-extremity capacitance veins immediately decreases central thoracic blood volume and venous return. CO and SV fall mechanically before reflex tachycardia ensues. SVR increases reflexively via alpha-1 constriction."
+      },
+      {
+        q: "During an exercise stress test, a 28-year-old athlete increases oxygen consumption (VO2). According to the Fick principle, which of the following parameters is inversely related to mixed venous oxygen content (CvO2)?",
+        options: ["Pulmonary capillary transit time", "Systemic arterial compliance", "Tissue oxygen extraction", "Alveolar oxygen tension"],
+        answer: 2,
+        explanation: "From the Fick equation (VO2 = Q × [CaO2 - CvO2]), higher peripheral tissue oxygen extraction extracts more oxygen from capillary blood, directly lowering mixed venous oxygen content (CvO2)."
+      },
+      {
+        q: "A 58-year-old female presents with a harsh crescendo-decrescendo systolic ejection murmur loudest at the right second intercostal space that radiates to the carotids. Which valvular disruption is present?",
+        options: ["Mitral regurgitation", "Aortic regurgitation", "Mitral stenosis", "Aortic stenosis"],
+        answer: 3,
+        explanation: "Aortic stenosis produces a crescendo-decrescendo systolic ejection murmur heard best at the right upper sternal border with carotid radiation. Mitral regurgitation is a holosystolic apical murmur. Aortic regurgitation is early diastolic decrescendo. Mitral stenosis is a mid-diastolic rumble."
+      },
+      {
+        q: "On a left ventricular pressure-volume loop, the end-diastolic volume is 125 mL and the end-systolic volume is 50 mL. What is the ejection fraction (EF)?",
+        options: ["60%", "40%", "75%", "50%"],
+        answer: 0,
+        explanation: "Stroke Volume (SV) = EDV - ESV = 125 - 50 = 75 mL. Ejection Fraction (EF) = SV / EDV = 75 / 125 = 0.60 = 60%. 40% represents ESV/EDV. 75% confuses SV value with percentage."
+      },
+      {
+        q: "During the cardiac cycle, closure of the atrioventricular (mitral and tricuspid) valves is responsible for producing which acoustic heart sound?",
+        options: ["Third heart sound (S3)", "First heart sound (S1)", "Second heart sound (S2)", "Fourth heart sound (S4)"],
+        answer: 1,
+        explanation: "S1 ('lub') is caused by the closure of the AV valves at the start of isovolumetric ventricular contraction. S2 ('dub') represents semilunar closure. S3 occurs during rapid early diastolic filling. S4 occurs during forceful late atrial contraction into a stiff ventricle."
+      },
+      {
+        q: "In cardiac autorhythmic cells of the sinoatrial node, phase 4 spontaneous depolarization is fundamentally driven by which of the following currents?",
+        options: ["Fast voltage-gated inward sodium current", "Inward potassium rectifier current", "Funny inward sodium current (If)", "Delayed outward chloride current"],
+        answer: 2,
+        explanation: "Spontaneous phase 4 pacemaker depolarization is initiated by the funny current (If), an inward hyperpolarization-activated Na+ flux active at potentials below -60 mV. Fast Na+ channels mediate phase 0 in myocytes. Inward rectifier K+ channels (IK1) maintain myocyte resting potential."
+      },
+      {
+        q: "A 68-year-old male with chronic coronary artery disease undergoes ECG evaluation. The tracing shows a constant, prolonged PR interval of 240 ms with no dropped QRS complexes. What is the diagnosis?",
+        options: ["Mobitz Type I second-degree AV block", "Third-degree complete AV block", "Mobitz Type II second-degree AV block", "First-degree AV block"],
+        answer: 3,
+        explanation: "First-degree AV block is characterized by a fixed PR interval prolongation (> 200 ms) with 1:1 AV conduction (no dropped QRS). Mobitz I features progressive PR lengthening before dropped beats. Mobitz II has intermittent dropped beats without PR lengthening. Third-degree exhibits complete AV dissociation."
+      },
+      {
+        q: "A patient in hemorrhagic shock demonstrates a vascular function curve that has shifted downward and parallel to the left. Which parameter has undergone a primary decrease?",
+        options: ["Mean systemic filling pressure", "Arteriolar resistance", "Myocardial contractility", "Heart rate"],
+        answer: 0,
+        explanation: "Acute loss of circulating blood volume depletes stressed vascular volume, directly lowering mean systemic filling pressure (Pmsf or Pmc), shifting the vascular function curve leftward. Contractility affects the cardiac curve. Arteriolar resistance alters the curve's slope."
+      },
+      {
+        q: "Which of the following local vasoactive metabolites is primarily responsible for metabolic vasodilation in the coronary circulation during periods of elevated myocardial oxygen consumption?",
+        options: ["Endothelin-1", "Adenosine", "Thromboxane A2", "Angiotensin II"],
+        answer: 1,
+        explanation: "Adenosine (produced from ATP hydrolysis) is the predominant local metabolic vasodilator in the coronary circulation. Endothelin-1 and thromboxane A2 are vasoconstrictors. Angiotensin II mediates systemic vasoconstriction."
+      },
+      {
+        q: "Which cutaneous sensory receptor is unencapsulated, adapts slowly (SA-P), and exhibits small receptive fields specialized for detecting fine detail, text, and edges?",
+        options: ["Meissner corpuscle", "Pacinian corpuscle", "Merkel disc", "Ruffini ending"],
+        answer: 2,
+        explanation: "Merkel discs are slowly adapting type 1 (SA-P) mechanoreceptors located in the basal epidermis with small, sharp receptive fields giving high spatial acuity. Meissner is rapidly adapting (RA-P). Pacinian is rapidly adapting deep (RA-D). Ruffini is slowly adapting deep (SA-D)."
+      },
+      {
+        q: "During active contraction of skeletal muscle extrafusal fibers, what mechanism prevents the intrafusal fibers of muscle spindles from going slack and losing sensory responsiveness?",
+        options: ["Reciprocal Ib inhibition", "Desensitization of annulospiral primary endings", "Disinhibition of Renshaw interneurons", "Coactivation of gamma motor neurons"],
+        answer: 3,
+        explanation: "Alpha-gamma coactivation ensures that gamma motor neurons simultaneously contract the contractile polar ends of intrafusal fibers, keeping the central equatorial sensory region taut and sensitive during extrafusal muscle shortening."
+      },
+      {
+        q: "A 22-year-old athlete experiences a cut on his forearm. Platelets adhere to the exposed subendothelial matrix via which of the following plasma proteins?",
+        options: ["Von Willebrand factor", "Plasminogen", "Antithrombin III", "Fibrinogen"],
+        answer: 0,
+        explanation: "Endothelial denudation exposes collagen, which binds circulating von Willebrand factor (vWF). Platelets bind vWF via glycoprotein Ib receptors. Fibrinogen participates in subsequent platelet aggregation via GPIIb/IIIa. Antithrombin III and plasminogen are anticoagulation/fibrinolytic factors."
+      },
+      {
+        q: "According to Poiseuille's law, reducing the internal radius of an arteriole by 50% will increase its vascular resistance to blood flow by which factor?",
+        options: ["2-fold", "16-fold", "4-fold", "8-fold"],
+        answer: 1,
+        explanation: "Resistance is inversely proportional to radius to the fourth power (R ∝ 1/r^4). Halving the radius (0.5) results in resistance increasing by (1/0.5)^4 = 2^4 = 16-fold."
+      },
+      {
+        q: "A 60-year-old female presents with severe peripheral edema. A reduction in which Starling force directly promotes increased transcapillary filtration into the interstitial space?",
+        options: ["Capillary hydrostatic pressure (Pc)", "Interstitial oncotic pressure (Πif)", "Plasma colloid osmotic pressure (Πp)", "Interstitial fluid pressure (Pif)"],
+        answer: 2,
+        explanation: "Plasma colloid osmotic pressure (Πp), created largely by albumin, is the primary inward force opposing transcapillary fluid filtration. A reduction in Πp (e.g., liver failure, nephrosis) shifts Starling equilibrium toward interstitial filtration, causing edema."
+      },
+      {
+        q: "Which of the following describes the molecular mechanism through which sympathetic stimulation of cardiac ventricular myocytes enhances myocardial contractility?",
+        options: ["Gi-alpha activation opening potassium channels", "Protein kinase C-mediated inhibition of L-type calcium channels", "Myosin light chain phosphatase activation via cGMP", "Protein kinase A-mediated phosphorylation of L-type calcium channels"],
+        answer: 3,
+        explanation: "Sympathetic beta-1 activation stimulates Gs, activating adenylyl cyclase to increase cAMP and activate PKA. PKA phosphorylates L-type Ca2+ channels (increasing inward Ca2+ current) and phospholamban (increasing SERCA Ca2+ reuptake)."
+      },
+      {
+        q: "A 30-year-old male with an acute asthma exacerbation receives inhaled albuterol. Which receptor is stimulated in the bronchioles to cause bronchodilation, and what is its associated G-protein?",
+        options: ["Beta-2 adrenergic receptor coupled to Gs", "Beta-1 adrenergic receptor coupled to Gi", "Alpha-1 adrenergic receptor coupled to Gq", "M3 muscarinic receptor coupled to Gq"],
+        answer: 0,
+        explanation: "Albuterol binds bronchial smooth muscle beta-2 adrenergic receptors coupled to Gs, elevating intracellular cAMP, which inhibits MLCK and induces bronchodilation. M3 stimulation causes bronchoconstriction."
+      },
+      {
+        q: "Chemoreceptors in the carotid and aortic bodies are primarily activated to stimulate respiration and sympathetic tone in response to which arterial trigger?",
+        options: ["Mild increase in cerebrospinal fluid pH", "Reduction in arterial PaO2 below 60 mmHg", "Isolated elevation of hematocrit", "Small increase in arterial oxygen saturation from 95% to 99%"],
+        answer: 1,
+        explanation: "Peripheral glomus chemoreceptors are uniquely sensitive to hypoxemia, showing sharp firing acceleration when PaO2 drops below 60 mmHg. Central chemoreceptors respond to CSF pH/PaCO2 and are insensitive to PaO2."
+      },
+      {
+        q: "A 50-year-old male with septic shock presents with marked systemic vasodilation and a wide pulse pressure. Which of the following hemodynamic parameters is characteristic of distributive shock?",
+        options: ["Elevated systemic vascular resistance", "Decreased systemic vascular resistance", "Severe mechanical obstruction of venous return", "Acute primary reduction in left ventricular contractility"],
+        answer: 1,
+        explanation: "Distributive shock (e.g., septic, anaphylactic) is characterized by severe pathological vasodilation resulting in profound reduction in systemic vascular resistance (SVR). SVR is elevated as compensation in hypovolemic, cardiogenic, and obstructive shock."
+      },
+      {
+        q: "A 70-year-old male with severe aortic valve regurgitation exhibits an abnormal heart sound in early diastole caused by rapid volume overload entering a dilated left ventricle. What is this sound?",
+        options: ["First heart sound (S1)", "Opening snap", "Third heart sound (S3)", "Fourth heart sound (S4)"],
+        answer: 2,
+        explanation: "An S3 heart sound occurs during early diastole during the passive rapid filling phase when blood rushes into an overcompliant or dilated left ventricle. S4 occurs in late diastole during active atrial contraction into a stiff ventricle."
+      },
+      {
+        q: "In the coagulation cascade, which factor serves as the convergence point where both the intrinsic and extrinsic pathways unite to form the prothrombinase complex?",
+        options: ["Factor VII", "Factor XII", "Factor IX", "Factor X"],
+        answer: 3,
+        explanation: "Factor X is the point of convergence where both the extrinsic (TF/VIIa) and intrinsic (tenase complex: IXa/VIIIa) pathways activate Factor X to Xa, which partners with Factor Va to cleave prothrombin into thrombin."
+      },
+      {
+        q: "A patient with chronic cirrhosis has impaired hepatic albumin synthesis. How will this alter capillary fluid exchange across peripheral capillary beds?",
+        options: ["Increased filtration due to reduced plasma oncotic pressure", "Decreased filtration due to increased capillary hydrostatic pressure", "Increased reabsorption due to increased plasma oncotic pressure", "Decreased lymphatic drainage due to interstitial hypoosmolarity"],
+        answer: 0,
+        explanation: "Albumin contributes ~75% of plasma colloid osmotic pressure (Πp). Hypoalbuminemia reduces the inward Starling force, shifting the net filtration pressure (NFP) toward ultrafiltration and edema."
+      },
+      {
+        q: "During dynamic aerobic exercise, which physiological vascular alteration occurs in active skeletal muscle beds?",
+        options: ["Local metabolic vasodilation overriding sympathetic vasoconstriction", "Intense myogenic constriction secondary to systemic hypertension", "Parasympathetic cholinergic dilation via postganglionic vagal fibers", "Sustained vasoconstriction mediated by circulating vasopressin"],
+        answer: 0,
+        explanation: "Active skeletal muscle exhibits functional sympatholysis: locally released metabolic byproducts (adenosine, K+, lactate, H+) override systemic alpha-1 sympathetic vasoconstriction to cause arteriolar vasodilation and hyperemia."
+      },
+      {
+        q: "Stimulation of atrial stretch receptors by acute hypervolemia induces the Bainbridge reflex. What is the characteristic cardiac response?",
+        options: ["Marked decrease in stroke volume", "Reflex increase in heart rate", "Complete atrioventricular nodal conduction block", "Prolongation of the QT interval"],
+        answer: 1,
+        explanation: "The Bainbridge reflex is triggered by low-pressure stretch receptors in the right atrium sensing increased blood volume; afferent vagal signals stimulate a reflex acceleration in heart rate to prevent venous pooling."
+      },
+      {
+        q: "Which of the following cellular events occurs during phase 2 (plateau phase) of the ventricular myocyte action potential?",
+        options: ["Influx of Ca2+ through L-type channels balanced by K+ efflux", "Massive influx of Na+ through fast voltage-gated channels", "Complete closure of all potassium channels", "Efflux of Na+ via the sodium-calcium exchanger (NCX)"],
+        answer: 0,
+        explanation: "Phase 2 plateau is maintained by electrical balance between inward Ca2+ current through L-type calcium channels (ICa-L) and outward K+ current through delayed rectifier channels (IK)."
+      },
+      {
+        q: "A 52-year-old male with an anterior wall myocardial infarction demonstrates ST-segment elevations on his ECG. What is the most common coronary artery occluded in this condition?",
+        options: ["Right coronary artery", "Left circumflex artery", "Left anterior descending artery", "Posterior descending artery"],
+        answer: 2,
+        explanation: "The Left Anterior Descending (LAD) coronary artery is the most frequently occluded artery in myocardial infarction, resulting in ischemia of the anterior left ventricular wall and interventricular septum."
+      },
+      {
+        q: "Which class of sensory afferent fibers is small, unmyelinated, and conducts impulses responsible for slow, dull, burning pain?",
+        options: ["A-alpha fibers", "A-beta fibers", "A-delta fibers", "C fibers"],
+        answer: 3,
+        explanation: "C fibers are small, unmyelinated, slowly conducting (0.5–2 m/s) afferent fibers that carry polymodal nociceptive impulses responsible for dull, aching, slow pain. A-delta fibers conduct fast, sharp pain."
+      },
+      {
+        q: "In the gate control theory of pain modulation, which sensory input activates spinal inhibitory interneurons in the dorsal horn to close the pain gate?",
+        options: ["Nonpainful mechanical input via A-beta fibers", "Noxious thermal input via C fibers", "Efferent sympathetic stimulation via unmyelinated postganglionics", "Chemical nociceptive input via A-delta fibers"],
+        answer: 0,
+        explanation: "Large myelinated A-beta fibers carrying non-painful touch stimuli activate inhibitory interneurons in the dorsal horn, which presynaptically and postsynaptically inhibit second-order pain transmission neurons, 'closing the gate' to C-fiber nociceptive signals."
+      },
+      {
+        q: "A 45-year-old female presents with severe pain in her right upper quadrant radiating to the right shoulder tip. This phenomenon of referred pain occurs due to which neuroanatomical mechanism?",
+        options: ["Aberrant peripheral axon collaterals innervating skin and bone", "Convergence of visceral and somatic afferents on shared second-order dorsal horn neurons", "Cross-excitation of adjacent motor neurons within the ventral horn", "Retrograde transport of substance P along postganglionic sympathetic fibers"],
+        answer: 1,
+        explanation: "Referred pain arises because visceral sensory afferents from internal organs converge onto the same second-order dorsal horn spinothalamic projection neurons that receive somatic nociceptive input from the corresponding dermatome."
+      },
+      {
+        q: "A medical student measures vascular compliance. Which blood vessel type exhibits the highest compliance, acting as the primary volume reservoir of the cardiovascular system?",
+        options: ["Systemic capillaries", "Muscular distributing arteries", "Systemic veins", "Terminal arterioles"],
+        answer: 2,
+        explanation: "Systemic veins have thin, distensible walls and high compliance (capacitance), containing 60–65% of total blood volume under low pressures. Arterioles are resistance vessels."
+      },
+      {
+        q: "In the renin-angiotensin-aldosterone system, what is the primary stimulus that triggers renin release from the juxtaglomerular granular cells of the renal afferent arteriole?",
+        options: ["Decreased renal arteriolar perfusion pressure", "Increased delivery of sodium chloride to the macula densa", "Generalized parasympathetic vagal stimulation", "Elevated circulating levels of atrial natriuretic peptide"],
+        answer: 0,
+        explanation: "Renin secretion is directly stimulated by reduced renal perfusion pressure, renal sympathetic nerve activity (beta-1), and decreased NaCl delivery to the macula densa. ANP inhibits renin."
+      },
+      {
+        q: "Angiotensin II exerts its potent vasoconstrictor action on systemic arterioles by binding to which receptor subtype and activating which second messenger pathway?",
+        options: ["AT2 receptor coupled to Gi and adenylyl cyclase inhibition", "AT1 receptor coupled to Gs and cAMP production", "AT1 receptor coupled to Gq and phospholipase C activation", "AT2 receptor coupled to guanylyl cyclase and cGMP generation"],
+        answer: 2,
+        explanation: "Angiotensin II binds AT1 receptors on vascular smooth muscle, activating Gq and phospholipase C (PLC) to yield IP3 and DAG, which raises intracellular Ca2+ and causes vasoconstriction."
+      },
+      {
+        q: "A 60-year-old male with long-standing poorly controlled hypertension develops concentric left ventricular hypertrophy. Which of the following alterations will be observed on his ventricular pressure-volume loop?",
+        options: ["Leftward displacement of the end-diastolic filling curve (decreased compliance)", "Marked widening of the horizontal width (increased stroke volume)", "Downward shift of the peak systolic pressure contour", "Rightward displacement of the end-systolic pressure-volume relationship"],
+        answer: 0,
+        explanation: "Concentric hypertrophy thickens and stiffens the ventricular wall, decreasing diastolic compliance. This shifts the diastolic filling limb (EDPVR) upward and leftward, requiring higher filling pressures for a given volume."
+      },
+      {
+        q: "During the cardiac cycle, when does coronary blood flow through the left coronary artery reach its maximal rate?",
+        options: ["Early systole during isovolumetric contraction", "Mid-systole during rapid ventricular ejection", "Late systole during reduced ventricular ejection", "Early diastole during isovolumetric relaxation and rapid filling"],
+        answer: 3,
+        explanation: "High left ventricular wall tension during systole compresses intramural coronaries, severely impeding flow. Left coronary blood flow peaks during early diastole when the myocardium relaxes and aortic diastolic driving pressure is high."
+      },
+      {
+        q: "A 25-year-old woman presents to the clinic with severe dizziness, sweating, and palpitations upon standing. Her heart rate jumps from 72 bpm supine to 122 bpm standing without orthostatic hypotension. What is the most likely diagnosis?",
+        options: ["Postural Orthostatic Tachycardia Syndrome (POTS)", "Irreversible hemorrhagic shock", "Vasovagal syncope", "Third-degree complete heart block"],
+        answer: 0,
+        explanation: "POTS is characterized by an excessive orthostatic heart rate increase (≥ 30 bpm) upon standing without a drop in blood pressure (ruling out orthostatic hypotension), often accompanied by palpitations, lightheadedness, and sweating."
+      },
+      {
+        q: "A 34-year-old male receives an infusion of high-dose norepinephrine. Which of the following receptor profiles accounts for the observed direct effects on vascular resistance and cardiac contractility?",
+        options: ["Potent beta-2 vasodilation with no alpha-adrenergic action", "Selective M2 stimulation with minimal adrenergic activation", "Predominant alpha-1 vasoconstriction and beta-1 inotropy", "Selective dopaminergic vasodilation in skeletal muscle"],
+        answer: 2,
+        explanation: "Norepinephrine is a potent alpha-1 adrenergic agonist (causing generalized vasoconstriction and increased SVR) and beta-1 agonist (increasing cardiac contractility). It has minimal activity on beta-2 receptors."
+      },
+      {
+        q: "In the baroreceptor reflex pathway, where do primary afferent fibers from the carotid sinus and aortic arch terminate within the medulla?",
+        options: ["Rostral ventrolateral medulla (RVLM)", "Dorsal root ganglion", "Nucleus tractus solitarius (NTS)", "Superior cervical ganglion"],
+        answer: 2,
+        explanation: "Afferent fibers from the carotid sinus (CN IX) and aortic arch (CN X) enter the dorsal medulla and terminate in the nucleus tractus solitarius (NTS), which integrates cardiovascular baroreflex input."
+      },
+      {
+        q: "A 65-year-old male with acute anterior myocardial infarction develops cardiogenic shock. What is the fundamental hemodynamic disturbance characterizing this condition?",
+        options: ["Widespread peripheral arteriolar dilation", "Extracardiac mechanical obstruction of diastolic filling", "Primary circulatory volume loss from plasma extravasation", "Primary myocardial pump failure leading to reduced cardiac output"],
+        answer: 3,
+        explanation: "Cardiogenic shock is defined by primary ventricular failure (pump failure) causing inadequate cardiac output and tissue hypoperfusion in the presence of adequate intravascular volume and high cardiac filling pressures."
+      },
+      {
+        q: "Which of the following interventions shifts the cardiac function (Starling) curve upward and to the left (counterclockwise)?",
+        options: ["Administration of a positive inotrope such as dobutamine", "Pharmacologic beta-1 adrenergic receptor blockade", "Severe metabolic acidosis and hypoxemia", "Acute loss of 30% of ventricular myocardium"],
+        answer: 0,
+        explanation: "Positive inotropes (such as beta-1 agonists like dobutamine) enhance myocyte contractility, producing greater stroke volume at any given right atrial pressure and shifting the cardiac function curve upward and leftward."
+      },
+      {
+        q: "Which endogenous anticlotting factor complexes with heparin to neutralize thrombin and activated factor Xa?",
+        options: ["Protein C", "Antithrombin III", "Tissue factor pathway inhibitor (TFPI)", "Thrombomodulin"],
+        answer: 1,
+        explanation: "Antithrombin III is a circulating serine protease inhibitor whose inhibitory activity against thrombin and Factor Xa is accelerated over 1,000-fold upon binding heparin or heparin sulfate."
+      },
+      {
+        q: "A 48-year-old female presents with severe pain and swelling in her lower extremity. Diagnostic evaluation confirms deep vein thrombosis. Which agent directly converts plasminogen to plasmin to induce fibrinolysis?",
+        options: ["Cyclooxygenase-1", "Vitamin K epoxide reductase", "Tissue plasminogen activator (tPA)", "Thromboxane synthase"],
+        answer: 2,
+        explanation: "Tissue plasminogen activator (tPA) catalyzes the conversion of inactive plasminogen into the active proteolytic enzyme plasmin, which dissolves fibrin meshworks."
+      },
+      {
+        q: "What is the effect of increased arterial blood pressure on the firing rate of carotid sinus baroreceptor afferents?",
+        options: ["Increased action potential frequency", "Decreased action potential frequency", "Cessation of all baseline electrical activity", "Transition from tonic firing to burst-suppression"],
+        answer: 0,
+        explanation: "Elevated transmural pressure stretches the carotid sinus arterial wall, opening mechanosensitive channels and increasing the frequency of action potentials conducted along CN IX to the NTS."
+      },
+      {
+        q: "During long-term adaptation to chronic tissue hypoxia, which transcription factor is activated to stimulate capillary sprouting and angiogenesis?",
+        options: ["Nuclear factor kappa B (NF-kB)", "Hypoxia-inducible factor 1 (HIF-1)", "Peroxisome proliferator-activated receptor (PPAR-gamma)", "Myocyte enhancer factor 2 (MEF2)"],
+        answer: 1,
+        explanation: "Tissue hypoxia prevents the prolyl hydroxylation and proteasomal degradation of hypoxia-inducible factor 1-alpha (HIF-1a), allowing it to heterodimerize and activate VEGF transcription for angiogenesis."
+      },
+      {
+        q: "Which encapsulated mechanoreceptor is situated within the dermal papillae of hairless skin, adapts rapidly (RA-P), and senses light flutter and low-frequency vibration?",
+        options: ["Ruffini ending", "Merkel disc", "Meissner corpuscle", "Pacinian corpuscle"],
+        answer: 2,
+        explanation: "Meissner corpuscles are rapidly adapting (RA-P) encapsulated receptors located in the dermal papillae of glabrous skin that respond to low-frequency flutter (30–50 Hz)."
+      },
+      {
+        q: "A 72-year-old male with long-standing hypertension has an abnormal ECG with broad, notched P waves and an enlarged left atrium. Forceful atrial contraction against a non-compliant left ventricle produces which heart sound?",
+        options: ["Third heart sound (S3)", "First heart sound (S1)", "Second heart sound (S2)", "Fourth heart sound (S4)"],
+        answer: 3,
+        explanation: "The fourth heart sound (S4) is a late diastolic sound produced by forceful atrial contraction pushing blood into a noncompliant, stiff left ventricle (e.g., in concentric ventricular hypertrophy)."
+      },
+      {
+        q: "A 30-year-old male sustains severe blunt trauma and loses 1500 mL of blood. High-pressure baroreceptors and low-pressure cardiopulmonary receptors trigger which renal neurohumoral response?",
+        options: ["Increased renin secretion via sympathetic stimulation", "Decreased vasopressin release from the posterior pituitary", "Inhibition of tubular sodium reabsorption", "Dilation of the afferent arteriole mediated by ANP"],
+        answer: 0,
+        explanation: "Hypovolemia reduces baroreceptor inhibition on the RVLM, driving high renal sympathetic nerve activity (beta-1) to trigger renin release from juxtaglomerular cells. Vasopressin release is increased."
+      },
+      {
+        q: "Which of the following occurs during the supranormal period of the ventricular action potential?",
+        options: ["Inability to generate any action potential regardless of stimulus", "Enhanced membrane excitability because voltage-gated sodium channels have recovered near threshold", "Plateau phase maintenance by balanced inward calcium and outward potassium currents", "Complete inactivation of delayed rectifier potassium channels"],
+        answer: 1,
+        explanation: "During the supranormal period (SNP, around -70 to -85 mV late in phase 3), fast Na+ channels have recovered from inactivation while the membrane is closer to threshold than at resting potential, making it transiently hyper-excitable."
+      },
+      {
+        q: "Which of the following agents is an oral anticoagulant that exerts its therapeutic effect by competitively inhibiting vitamin K epoxide reductase (VKOR)?",
+        options: ["Clopidogrel", "Aspirin", "Warfarin", "Unfractionated heparin"],
+        answer: 2,
+        explanation: "Warfarin competitively inhibits vitamin K epoxide reductase (VKORC1), blocking the recycling of reduced vitamin K required for gamma-carboxylation of clotting factors II, VII, IX, and X, as well as proteins C and S."
+      },
+      {
+        q: "In the pulmonary circulation, what is the unique vascular response to alveolar hypoxia?",
+        options: ["Vasodilation to recruit underperfused capillaries", "Severe inhibition of endothelial nitric oxide synthase", "Extensive arteriogenesis of bronchial collaterals", "Vasoconstriction to divert blood to well-ventilated alveoli"],
+        answer: 3,
+        explanation: "Hypoxic pulmonary vasoconstriction (HPV) is a unique adaptation of pulmonary vessels that constricts arterioles supplying poorly ventilated, hypoxic alveoli, shunting blood to well-ventilated lung units."
+      },
+      {
+        q: "Which of the following statements correctly distinguishes central chemoreceptors from peripheral chemoreceptors?",
+        options: ["Central chemoreceptors respond primarily to CSF pH changes induced by CO2", "Central chemoreceptors respond directly to arterial hypoxemia below 60 mmHg", "Peripheral chemoreceptors are located within the ventrolateral medulla", "Peripheral chemoreceptors mediate the slow, minute-to-minute resting control of breathing"],
+        answer: 0,
+        explanation: "Central chemoreceptors located on the ventrolateral medulla monitor CSF [H+] generated when arterial CO2 diffuses across the blood-brain barrier. They are insensitive to direct arterial hypoxemia, which is sensed by peripheral glomus cells."
+      },
+      {
+        q: "During isovolumetric ventricular contraction, what is the status of the cardiac valves?",
+        options: ["Aortic and mitral valves are both open", "AV valves are closed and semilunar valves are closed", "Aortic valve is open and mitral valve is closed", "AV valves are open and semilunar valves are closed"],
+        answer: 1,
+        explanation: "During isovolumetric contraction, intraventricular pressure exceeds atrial pressure (snapping AV valves shut), but has not yet exceeded aortic/pulmonary arterial diastolic pressure (semilunar valves remain closed)."
+      },
+      {
+        q: "A 40-year-old female presents with persistent tachycardia. Her physician suspects excessive thyroid hormone levels. Which cellular change explains the positive chronotropic effect of sympathetic tone on the SA node?",
+        options: ["Decreased slope of phase 4 spontaneous depolarization", "Hyperpolarization of the maximum diastolic potential", "Increased slope of phase 4 spontaneous depolarization", "Inactivation of L-type calcium channels during phase 0"],
+        answer: 2,
+        explanation: "Sympathetic beta-1 activation accelerates heart rate by increasing the slope of spontaneous phase 4 depolarization in SA nodal cells via enhanced funny current (If) and T/L-type Ca2+ channel conductance."
+      },
+      {
+        q: "Which of the following mechanoreceptors is characterized by slowly adapting properties, diffuse/fuzzy receptive field borders (SA-D), and sensitivity to skin stretch?",
+        options: ["Meissner corpuscle", "Pacinian corpuscle", "Merkel disc", "Ruffini ending"],
+        answer: 3,
+        explanation: "Ruffini endings are slowly adapting receptors with large, diffuse borders (SA-D) that monitor dermal tissue stretch and joint movements."
+      },
+      {
+        q: "A 60-year-old male with severe congestive heart failure receives digoxin. Digoxin increases myocyte contractility by directly inhibiting which membrane transporter?",
+        options: ["Na+/K+ ATPase pump", "Sarcoplasmic reticulum Ca2+ ATPase (SERCA)", "Na+/Ca2+ exchanger (NCX)", "L-type voltage-gated Ca2+ channel"],
+        answer: 0,
+        explanation: "Digoxin directly inhibits the sarcolemmal Na+/K+ ATPase pump. The resulting increase in intracellular Na+ reduces the driving force for Ca2+ extrusion by the NCX, thereby increasing sarcoplasmic reticulum Ca2+ stores and contractility."
+      },
+      {
+        q: "A 55-year-old male develops sudden chest pain. Coronary angiogram demonstrates critical stenosis. Under resting conditions, which organ possesses the highest basal vascular tone, retaining substantial capacity for metabolic vasodilation?",
+        options: ["Brain", "Myocardium", "Kidney", "Adrenal medulla"],
+        answer: 1,
+        explanation: "The myocardium extracts ~70–80% of delivered oxygen under basal conditions and maintains high resting vascular tone to provide extensive reserve for metabolic vasodilation when work increases. The brain and kidneys maintain lower basal tone."
+      },
+      {
+        q: "In the cardiac cycle, the incisura (dicrotic notch) seen on the aortic pressure tracing is caused by which mechanical event?",
+        options: ["Sudden closure of the aortic valve", "Rapid opening of the mitral valve", "Isovolumetric contraction of the left ventricle", "Atrial contraction pushing blood into the ventricle"],
+        answer: 0,
+        explanation: "The dicrotic notch (incisura) on the aortic pressure wave is caused by transient retrograde flow followed by rapid closure of the aortic semilunar valve at the beginning of ventricular diastole."
+      },
+      {
+        q: "Which of the following compounds is released by uninjured, healthy endothelial cells to inhibit platelet aggregation and promote localized vasodilation?",
+        options: ["Thromboxane A2", "Serotonin (5-HT)", "Endothelin-1", "Prostacyclin (PGI2)"],
+        answer: 3,
+        explanation: "Prostacyclin (PGI2) is produced from arachidonic acid by healthy vascular endothelium to raise platelet cAMP and stimulate smooth muscle relaxation, preventing clot propagation outside sites of injury."
+      },
+      {
+        q: "A 70-year-old female presents with severe fatigue and dizzy spells. Her ECG reveals complete atrioventricular dissociation, with regular P waves at 80 bpm and independent wide QRS complexes at 32 bpm. Where is the pacemaker driving her ventricles located?",
+        options: ["Purkinje fibers", "Sinoatrial node", "Bachmann's bundle", "Internodal atrial tracts"],
+        answer: 0,
+        explanation: "In third-degree AV block, ventricles are driven by an ectopic escape pacemaker located below the AV node. Wide QRS complexes at a rate of 15–40 bpm are characteristic of an idioventricular Purkinje pacemaker."
+      },
+      {
+        q: "A 45-year-old male with chronic renal disease presents with a serum potassium concentration of 7.8 mEq/L. Which ECG finding is characteristically associated with this electrolyte disturbance?",
+        options: ["Prominent U waves following the T wave", "Tall, peaked, symmetrical T waves", "Shortening of the PR interval below 100 ms", "Significant ST-segment depression"],
+        answer: 1,
+        explanation: "Hyperkalemia accelerates Phase 3 repolarization, producing tall, narrow, peaked T waves. Hypokalemia produces ST depression, flattened T waves, and prominent U waves."
+      },
+      {
+        q: "Which of the following factors will decrease the critical velocity at which blood flow transitions from smooth laminar flow to turbulent flow, as calculated by Reynolds number (Re)?",
+        options: ["Increased blood viscosity", "Decreased vessel diameter", "Decreased blood velocity", "Decreased blood viscosity (e.g., severe anemia)"],
+        answer: 3,
+        explanation: "Reynolds number is inversely proportional to viscosity (Re = ρ·D·V / η). A reduction in viscosity (η)—as occurs in anemia—increases Re, lowering the threshold for turbulent flow and predisposing to murmurs."
+      },
+      {
+        q: "During the baroreceptor reflex response to an acute surge in arterial blood pressure, which of the following neural pathways is activated?",
+        options: ["Cardioinhibitory vagal neurons in the nucleus ambiguus", "Sympathetic preganglionic neurons in the intermediolateral horn", "Excitatory bulbospinal fibers originating in the RVLM", "Adrenergic outflow to the adrenal medulla"],
+        answer: 0,
+        explanation: "Elevated arterial pressure stimulates NTS neurons, which project excitatory fibers to the nucleus ambiguus and dorsal motor nucleus of CN X, increasing vagal parasympathetic output to slow the heart."
+      },
+      {
+        q: "In an isolated arterial segment, an acute increase in intraluminal pressure causes reflexive smooth muscle contraction that restores baseline flow. What is this intrinsic mechanism?",
+        options: ["Myogenic autoregulation", "Reactive hyperemia", "Shear stress-induced nitric oxide release", "Active metabolic hyperemia"],
+        answer: 0,
+        explanation: "The myogenic response (Bayliss effect) is the intrinsic ability of vascular smooth muscle to contract in response to increased stretch/pressure and relax in response to decreased pressure, stabilizing local flow."
+      },
+      {
+        q: "Which of the following factors causes a downward and rightward shift (clockwise rotation) of the cardiac function curve?",
+        options: ["Sympathetic adrenergic activation", "Myocardial infarction", "Digoxin administration", "Infusion of isoproterenol"],
+        answer: 1,
+        explanation: "Loss of functioning myocardium in myocardial infarction depresses ventricular pump function, reducing stroke volume for any given right atrial pressure (shifting the Starling curve downward and rightward)."
+      },
+      {
+        q: "A 35-year-old male touches a hot pan and immediately withdraws his hand, feeling a sharp, highly localized pain followed seconds later by a diffuse, burning ache. What fiber type mediated the initial sharp sensation?",
+        options: ["A-beta fibers", "A-delta fibers", "C fibers", "B fibers"],
+        answer: 1,
+        explanation: "Fast pain (sharp, immediate, precisely localized) is mediated by thinly myelinated A-delta fibers. Slow pain (dull, throbbing, burning) is carried by unmyelinated C fibers."
+      },
+      {
+        q: "In vascular smooth muscle, what enzyme is activated by elevated intracellular cGMP to dephosphorylate myosin light chains and promote vasodilation?",
+        options: ["Phospholipase C (PLC)", "Myosin light chain kinase (MLCK)", "Protein kinase C (PKC)", "Myosin light chain phosphatase (MLCP)"],
+        answer: 3,
+        explanation: "cGMP activates protein kinase G (PKG), which stimulates myosin light chain phosphatase (MLCP). MLCP removes activating phosphate groups from myosin light chains, promoting smooth muscle relaxation."
+      },
+      {
+        q: "What is the primary hemodynamic consequence of stimulating cardiac M2 muscarinic receptors with acetylcholine?",
+        options: ["Decreased heart rate (negative chronotropy)", "Markedly increased ventricular contractility (positive inotropy)", "Accelerated conduction through the atrioventricular node", "Systemic arteriolar vasoconstriction"],
+        answer: 0,
+        explanation: "Acetylcholine binds nodal M2 muscarinic receptors coupled to Gi/GIRK, slowing the rate of phase 4 spontaneous depolarization and reducing SA node discharge rate (negative chronotropy)."
+      },
+      {
+        q: "Which heart sound is produced by the closure of the aortic and pulmonic semilunar valves at the termination of ventricular ejection?",
+        options: ["First heart sound (S1)", "Second heart sound (S2)", "Third heart sound (S3)", "Fourth heart sound (S4)"],
+        answer: 1,
+        explanation: "The second heart sound (S2) is caused by semilunar (aortic and pulmonic) valve closure at the completion of ventricular systole and the onset of isovolumetric relaxation."
+      },
+      {
+        q: "A 65-year-old male with severe emphysema presents with right-sided heart failure. Which of the following mechanisms explains why pulmonary hypertension developed in this patient?",
+        options: ["Reflex sympathetic vasodilation of pulmonary arteries", "Chronic hypoxic pulmonary vasoconstriction", "Massive release of prostacyclin from alveolar walls", "Excessive left atrial volume overloading"],
+        answer: 1,
+        explanation: "Chronic alveolar hypoxia throughout the lungs triggers sustained hypoxic pulmonary vasoconstriction, causing arterial remodeling, high pulmonary vascular resistance, and cor pulmonale."
+      },
+      {
+        q: "Which of the following physiological variables is directly responsible for determining the preload of the right ventricle?",
+        options: ["Systemic arterial blood pressure", "Total peripheral resistance", "Central venous pressure", "Aortic valve resistance"],
+        answer: 2,
+        explanation: "Preload is determined by the volume and pressure in the chamber at end-diastole. Right ventricular preload is directly determined by systemic venous return and central venous pressure (right atrial pressure)."
+      },
+      {
+        q: "A 28-year-old female presents with postural dizziness. Examination reveals that when she stands, venous blood pools in her legs due to gravity. Which mechanism counteracts this pooling during ambulation?",
+        options: ["Skeletal muscle pump with competent venous valves", "Local release of bradykinin from cutaneous arterioles", "Dilation of deep femoral veins", "Parasympathetic stimulation of venous walls"],
+        answer: 0,
+        explanation: "The skeletal muscle pump compresses deep leg veins during muscular contraction, while one-way venous valves prevent retrograde flow, driving pooled venous blood upward toward the right atrium."
+      },
+      {
+        q: "On an electrocardiogram, which electrical event is represented by the T wave?",
+        options: ["Atrial repolarization", "Ventricular repolarization", "Ventricular depolarization", "Conduction delay across the AV node"],
+        answer: 1,
+        explanation: "The T wave reflects ventricular repolarization (Phase 3 of ventricular myocytes). The QRS complex represents ventricular depolarization. The P wave represents atrial depolarization."
+      },
+      {
+        q: "Which of the following agents acts on vascular smooth muscle to cause vasoconstriction by binding to V1 receptors coupled to Gq?",
+        options: ["Arginine vasopressin", "Atrial natriuretic peptide", "Bradykinin", "Calcitonin gene-related peptide"],
+        answer: 0,
+        explanation: "Arginine vasopressin (ADH) binds vascular V1 receptors coupled to Gq/PLC to cause potent arteriolar vasoconstriction. It binds renal V2 receptors (Gs) in principal cells to increase water permeability."
+      },
+      {
+        q: "In the microcirculation, which structural vessel type possesses the greatest total cross-sectional area and the lowest velocity of blood flow?",
+        options: ["Elastic aorta", "Muscular arteries", "Capillaries", "Venae cavae"],
+        answer: 2,
+        explanation: "Capillaries collectively possess the largest total cross-sectional area (~3000 cm^2), resulting in the slowest blood flow velocity (~0.3 mm/s), which maximizes time for gas and nutrient exchange."
+      },
+      {
+        q: "A 19-year-old college student sustains a laceration. Which chemical agent released by damaged cells binds to TRPV1 and purinergic receptors to directly sensitize nociceptors?",
+        options: ["Bradykinin", "Albumin", "Angiotensinogen", "Fibrinogen"],
+        answer: 0,
+        explanation: "Bradykinin released following cell injury activates B2 receptors, sensitizing primary nociceptive nerve endings and decreasing their activation threshold."
+      },
+      {
+        q: "During an experimental animal study, carotid sinus baroreceptor afferent fibers are electrically stimulated at a high frequency. What is the expected physiological response?",
+        options: ["Marked decrease in arterial blood pressure and heart rate", "Massive reflex surge in sympathetic vasoconstriction", "Accelerated conduction through the AV node", "Release of epinephrine from the adrenal medulla"],
+        answer: 0,
+        explanation: "Stimulation of carotid sinus afferents mimics acute hypertension, exciting the NTS, which activates vagal cardioinhibitory centers and suppresses the RVLM, producing bradycardia, vasodilation, and hypotension."
+      },
+      {
+        q: "Which of the following describes the mechanism underlying delayed afterdepolarizations (DADs) that trigger cardiac arrhythmias?",
+        options: ["Prolongation of the action potential plateau in hypokalemia", "Intracellular calcium overload activating inward sodium-calcium exchange current", "Complete blockade of fast voltage-gated sodium channels", "Reentrant circling around a permanent myocardial scar"],
+        answer: 1,
+        explanation: "DADs occur in Phase 4 after full repolarization due to intracellular calcium overload (e.g., digoxin toxicity), which causes spontaneous Ca2+ release from the SR, activating electrogenic NCX (inward Na+ current) to generate afterdepolarizations."
+      },
+      {
+        q: "Which specialized vascular bed demonstrates an autoregulatory response that is almost exclusively dependent on arterial carbon dioxide tension (PaCO2)?",
+        options: ["Cutaneous circulation", "Renal circulation", "Skeletal muscle circulation", "Cerebral circulation"],
+        answer: 3,
+        explanation: "Cerebral blood flow is highly sensitive to arterial PaCO2. Increases in PaCO2 lower local perivascular pH, causing pronounced cerebral vasodilation."
+      },
+      {
+        q: "A 45-year-old male with an acute myocardial infarction exhibits an abnormal ECG rhythm with variable P-P intervals and intermittent dropped QRS complexes following progressive PR prolongation. What is this arrhythmia?",
+        options: ["Mobitz Type I (Wenckebach) second-degree AV block", "First-degree AV block", "Mobitz Type II second-degree AV block", "Third-degree complete AV block"],
+        answer: 0,
+        explanation: "Mobitz Type I (Wenckebach) is characterized by progressive prolongation of the PR interval until a P wave fails to conduct through the AV node (dropped QRS)."
+      },
+      {
+        q: "During the physical examination of a 22-year-old healthy female, inspiration causes a physiological splitting of the second heart sound (S2). What causes this phenomenon?",
+        options: ["Delayed closure of the aortic valve relative to pulmonic valve closure", "Delayed closure of the pulmonic valve due to increased venous return to the right ventricle", "Premature closure of the tricuspid valve during inspiration", "Delayed closure of the mitral valve due to decreased intrathoracic pressure"],
+        answer: 1,
+        explanation: "Inspiration creates negative intrathoracic pressure, increasing venous return to the right heart, prolonging RV stroke volume, and delaying pulmonic valve closure (P2 relative to A2)."
+      },
+      {
+        q: "A 50-year-old male with septic shock demonstrates severe systemic hypotension. Which stage of shock is defined by the failure of compensatory mechanisms, progressive tissue hypoperfusion, and cellular metabolic failure?",
+        options: ["Stage 1 (Compensated shock)", "Stage 2 (Decompensated / Progressive shock)", "Stage 3 (Latent shock)", "Stage 4 (Pre-clinical shock)"],
+        answer: 1,
+        explanation: "Stage 2 (Decompensated/Progressive shock) occurs when compensatory mechanisms are overwhelmed, resulting in systemic hypotension, tissue hypoxia, anaerobic metabolism, and organ hypoperfusion."
+      },
+      {
+        q: "Which of the following sensory receptors is responsible for initiating the inverse myotatic reflex, causing autogenic relaxation of a muscle when its tendon is subjected to high tension?",
+        options: ["Intrafusal nuclear bag fibers", "Ruffini corpuscles", "Golgi tendon organ", "Annulospiral primary endings"],
+        answer: 2,
+        explanation: "Golgi tendon organs (innervated by Ib afferents) detect active muscle tension and stimulate inhibitory interneurons in the spinal cord, relaxing the homonymous muscle to protect the tendon."
+      },
+      {
+        q: "Which of the following clotting factors is activated directly by the tissue factor (Factor III) complex to initiate the extrinsic coagulation pathway?",
+        options: ["Factor VII", "Factor XII", "Factor VIII", "Factor XI"],
+        answer: 0,
+        explanation: "The extrinsic pathway is initiated when subendothelial Tissue Factor (Factor III) binds circulating Factor VII in the presence of calcium, forming the TF-VIIa complex to activate Factor X."
+      },
+      {
+        q: "A 60-year-old male with a history of hypertension presents with dyspnea. Echocardiogram reveals an ejection fraction of 65% with severe left ventricular concentric hypertrophy and elevated filling pressures. What is the diagnosis?",
+        options: ["High-output heart failure", "Systolic heart failure", "Heart failure with preserved ejection fraction (diastolic dysfunction)", "Dilated cardiomyopathy"],
+        answer: 2,
+        explanation: "Diastolic dysfunction (HFpEF) presents with clinical heart failure and elevated diastolic filling pressures despite a normal/preserved ejection fraction (EF ≥ 50%), driven by ventricular hypertrophy and stiffness."
+      },
+      {
+        q: "Which of the following cardiovascular consequences is observed during moderate dynamic aerobic exercise?",
+        options: ["Marked decrease in systolic arterial pressure", "Unchanged cardiac output", "Severe reduction in total peripheral resistance", "Marked increase in renal and splanchnic blood flow"],
+        answer: 2,
+        explanation: "Profound metabolic vasodilation in active skeletal muscle vascular beds causes an overall reduction in Total Peripheral Resistance (TPR), despite compensatory sympathetic constriction in splanchnic/renal vessels."
+      },
+      {
+        q: "What electrical interval on the surface electrocardiogram corresponds to the entire duration of the ventricular action potential (depolarization and repolarization)?",
+        options: ["PR interval", "QRS duration", "ST segment", "QT interval"],
+        answer: 3,
+        explanation: "The QT interval spans from the start of the QRS complex to the end of the T wave, representing total ventricular electrical activity (depolarization plus repolarization)."
+      },
+      {
+        q: "In which tissue bed are continuous, non-fenestrated capillaries with occluding tight junctions and continuous basement membranes predominantly found?",
+        options: ["Liver sinusoids", "Renal glomerulus", "Blood-brain barrier", "Splenic red pulp"],
+        answer: 2,
+        explanation: "The blood-brain barrier is formed by continuous capillaries linked by tight junctions (zonulae occludentes) with a continuous basement membrane, restricting paracellular solute passage."
+      },
+      {
+        q: "A 65-year-old male receives a potent intravenous alpha-1 adrenergic agonist. What direct effect will this drug exert on venous capacitance and stroke volume?",
+        options: ["Increased venous capacitance and decreased stroke volume", "Decreased venous capacitance and increased stroke volume", "Decreased stroke volume via direct negative inotropic signaling", "Increased venous capacitance with no effect on stroke volume"],
+        answer: 1,
+        explanation: "Alpha-1 adrenergic stimulation constricts systemic veins, reducing venous capacitance, elevating central venous pressure and venous return, and increasing ventricular end-diastolic volume and stroke volume."
+      },
+      {
+        q: "In sensory physiology, what is the term for the mechanism by which an excited primary sensory neuron dampens the lateral spread of excitation in neighboring pathways via inhibitory interneurons?",
+        options: ["Frequency coding", "Temporal summation", "Lateral inhibition", "Sensory adaptation"],
+        answer: 2,
+        explanation: "Lateral inhibition sharpens sensory contrast and spatial localization by having the most strongly activated sensory neuron stimulate inhibitory interneurons that suppress adjacent peripheral pathways."
+      },
+      {
+        q: "Which of the following represents the primary mechanism for termination of the local action of nitric oxide in vascular smooth muscle?",
+        options: ["Rapid spontaneous oxidation and scavenging by hemoglobin", "Active enzymatic degradation by acetylcholinesterase", "Direct reuptake into presynaptic vesicles via dopamine transporters", "Phosphorylation by cyclic AMP-dependent protein kinase"],
+        answer: 0,
+        explanation: "Nitric oxide is a gas with a half-life of seconds that is rapidly inactivated by reacting with superoxide free radicals and binding to the heme iron of oxyhemoglobin in red blood cells."
+      },
+      {
+        q: "A 75-year-old male with chronic hypertension undergoes cardiac catheterization. His left ventricular end-diastolic volume is 140 mL, and end-systolic volume is 70 mL. What is his stroke volume?",
+        options: ["70 mL", "90 mL", "50 mL", "110 mL"],
+        answer: 0,
+        explanation: "Stroke Volume (SV) = EDV - ESV = 140 mL - 70 mL = 70 mL."
+      },
+      {
+        q: "In the descending pain modulation pathway, activation of neurons in the periaqueductal gray (PAG) suppresses nociceptive transmission in the dorsal horn by stimulating the release of which endogenous analgesic neurotransmitters?",
+        options: ["Acetylcholine and dopamine", "Serotonin and norepinephrine", "Substance P and glutamate", "Histamine and bradykinin"],
+        answer: 1,
+        explanation: "Descending analgesic pathways from the PAG project to the rostral ventromedial medulla and locus coeruleus, which release serotonin (5-HT) and norepinephrine (NE) in the dorsal horn to activate enkephalinergic interneurons."
+      },
+      {
+        q: "A 45-year-old female presents with persistent flushing and diarrhea. Lab tests indicate an endocrine tumor secreting large quantities of serotonin (5-HT). What direct effect does serotonin exert when platelets release it at a site of vascular injury?",
+        options: ["Potent local arteriolar vasodilation via Gs", "Inhibition of primary hemostatic plug formation", "Local vasoconstriction mediated by 5-HT2A receptors", "Suppression of endothelial von Willebrand factor secretion"],
+        answer: 2,
+        explanation: "Serotonin released from activated platelets binds vascular smooth muscle 5-HT2A receptors coupled to Gq, stimulating vasoconstriction to limit local blood loss."
+      },
+      {
+        q: "Which layer of the blood vessel wall contains the specialized vascular smooth muscle cells responsible for regulating arteriolar resistance and systemic blood pressure?",
+        options: ["Tunica adventitia", "Tunica intima", "Internal elastic lamina", "Tunica media"],
+        answer: 3,
+        explanation: "The tunica media contains circumferentially arranged vascular smooth muscle cells that respond to autonomic and local vasoactive stimuli to regulate vessel caliber and resistance."
+      },
+      {
+        q: "A 30-year-old female undergoes a routine physical examination. A two-point discrimination test is performed. Which anatomical region has the highest density of mechanoreceptors and the smallest receptive fields, producing the greatest spatial acuity?",
+        options: ["Posterior thigh", "Mid-back", "Fingertips", "Upper arm"],
+        answer: 2,
+        explanation: "Fingertips and lips have the highest density of tactile mechanoreceptors with small receptive fields, yielding the highest spatial acuity and smallest two-point discrimination thresholds (< 2–3 mm)."
+      },
+      {
+        q: "Which of the following statements correctly explains why an uncorrected severe tachycardia (HR > 180–200 bpm) can paradoxically lead to a marked reduction in cardiac output?",
+        options: ["Diastolic filling time is drastically shortened, impairing end-diastolic volume", "Systolic ejection velocity drops to zero due to negative inotropy", "Coronary artery perfusion increases excessively, causing volume overload", "Venous return increases beyond the capacity of the right ventricle"],
+        answer: 0,
+        explanation: "At high heart rates, the cardiac cycle is shortened primarily at the expense of diastole. Severely reduced diastolic filling time limits ventricular filling, decreasing EDV, stroke volume, and cardiac output."
+      },
+      {
+        q: "A 50-year-old male is evaluated for chronic hypertension. Which of the following long-term adaptations occurs within the arterial baroreceptors in patients with chronic sustained hypertension?",
+        options: ["Complete irreversible structural necrosis of the glossopharyngeal nerve", "Resetting of the baroreceptor firing threshold toward the higher baseline pressure", "Permanent hypersensitivity with exaggerated vagal outflow", "Complete loss of medullary responsiveness to all autonomic inputs"],
+        answer: 1,
+        explanation: "Arterial baroreceptors reset to higher pressures within days of sustained hypertension; their firing curve shifts rightward, establishing the elevated pressure as the new homeostatic baseline."
+      },
+      {
+        q: "A patient presents to the emergency department after a motor vehicle accident with a tension pneumothorax. Physical exam reveals jugular venous distention, tracheal deviation, and severe hypotension. What category of shock is present?",
+        options: ["Hypovolemic shock", "Distributive shock", "Obstructive shock", "Cardiogenic shock"],
+        answer: 2,
+        explanation: "Tension pneumothorax causes high intrathoracic pressure that compresses the vena cavae, obstructing venous return to the heart and producing obstructive shock."
+      }
+    ];
+
+    let currentScore = 0;
+    let answeredCount = 0;
+    const answeredTracker = new Set();
+
+    function initQuiz() {
+      const mTable = document.getElementById("matching-rows");
+      matchingData.forEach((item) => {
+        const row = document.createElement("tr");
+        row.innerHTML = `
+          <td><strong>${item.id}. ${item.name}</strong></td>
+          <td>
+            <select id="match-select-${item.id}">
+              <option value="">-- Choose matching description --</option>
+              ${matchingOptions.map(opt => `<option value="${opt.letter}">${opt.letter}.${opt.text}</option>`).join("")}
+            </select>
+          </td>
+        `;
+        mTable.appendChild(row);
+      });
+
+      const mcqBox = document.getElementById("mcq-container");
+      mcqQuestions.forEach((item, idx) => {
+        const qNum = idx + 4;
+        const card = document.createElement("div");
+        card.className = "card";
+        card.id = `mcq-card-${idx}`;
+
+        const letters = ["A", "B", "C", "D"];
+        const optHtml = item.options.map((opt, oIdx) => `
+          <button class="opt-btn" id="btn-${idx}-${oIdx}" onclick="handleAnswer(${idx}, ${oIdx})">
+            <span class="opt-letter">${letters[oIdx]}.</span>
+            <span class="opt-text">${opt}</span>
+          </button>
+        `).join("");
+
+        card.innerHTML = `
+          <div class="q-number">Question ${qNum}</div>
+          <div class="q-text">${item.q}</div>
+          <div class="options-grid">${optHtml}</div>
+          <div class="explanation" id="exp-${idx}">
+            <strong>Board Rationale:</strong>
+            ${item.explanation}
+          </div>
+        `;
+        mcqBox.appendChild(card);
+      });
+    }
+
+    function checkMatching() {
+      let correct = 0;
+      matchingData.forEach(item => {
+        const sel = document.getElementById(`match-select-${item.id}`);
+        if (sel.value === item.match) {
+          sel.style.backgroundColor = "var(--correct-bg)";
+          sel.style.borderColor = "var(--correct-border)";
+          correct++;
+        } else {
+          sel.style.backgroundColor = "var(--incorrect-bg)";
+          sel.style.borderColor = "var(--incorrect-border)";
+        }
+      });
+
+      const exp = document.getElementById("exp-q1");
+      exp.style.display = "block";
+      exp.innerHTML = `
+        <strong>Matching Results: ${correct} / 10 Correct</strong>
+        <br>
+        ${matchingData.map(i => `<strong>${i.id}.${i.name} → ${i.match}</strong>:${i.desc}`).join("<br>")}
+      `;
+    }
+
+    function handleAnswer(qIdx, selectedIdx) {
+      if (answeredTracker.has(qIdx)) return;
+      answeredTracker.add(qIdx);
+
+      const q = mcqQuestions[qIdx];
+      const correctIdx = q.answer;
+      const isCorrect = selectedIdx === correctIdx;
+
+      const selectedBtn = document.getElementById(`btn-${qIdx}-${selectedIdx}`);
+      const correctBtn = document.getElementById(`btn-${qIdx}-${correctIdx}`);
+
+      if (isCorrect) {
+        selectedBtn.classList.add("correct");
+        currentScore++;
+      } else {
+        selectedBtn.classList.add("incorrect");
+        correctBtn.classList.add("correct");
+      }
+
+      for (let i = 0; i < 4; i++) {
+        document.getElementById(`btn-${qIdx}-${i}`).disabled = true;
+      }
+
+      document.getElementById(`exp-${qIdx}`).style.display = "block";
+
+      answeredCount++;
+      document.getElementById("score").innerText = currentScore;
+      document.getElementById("answered").innerText = `${answeredCount} / ${mcqQuestions.length}`;
+      document.getElementById("accuracy").innerText = `${Math.round((currentScore / answeredCount) * 100)}%`;
+    }
+
+    function toggleDisplay(elementId) {
+      const el = document.getElementById(elementId);
+      el.style.display = el.style.display === "block" ? "none" : "block";
+    }
+
+    document.addEventListener("DOMContentLoaded", initQuiz);
+  </script>
+</body>
+</html>
